@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "trainer")
@@ -13,7 +14,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Trainer {
+public class Trainer implements Serializable {
+
+    private static final long serialVersionUID = -4563086931025194988L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
