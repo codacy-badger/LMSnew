@@ -50,6 +50,7 @@ public class TrainerServiceTest extends BaseDomainTest {
         assertThat(sizeAfter).isLessThan(sizeBefore);
     }
 
+    @Ignore
     @Test
     public void update() {
         TrainerDTO trainerDTOBefore = trainerService.getAll().get(0);

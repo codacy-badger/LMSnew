@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.pp.jjd.lmsnew.dto.TrainerDTO;
+import ua.pp.jjd.lmsnew.service.CourseService;
 import ua.pp.jjd.lmsnew.service.TrainerService;
 
 import java.util.Arrays;
@@ -39,6 +40,9 @@ public class TrainerControllerTest {
 
     @MockBean
     private TrainerService trainerService;
+
+    @MockBean
+    private CourseService courseService;
 
     private TrainerDTO trainer1 = TrainerDTO.builder()
             .trainerId(1L)
