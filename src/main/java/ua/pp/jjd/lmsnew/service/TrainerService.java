@@ -54,7 +54,7 @@ public class TrainerService {
         TrainerDTO trainerDTO = null;
         if (trainer != null) {
             trainerDTO = TrainerDTO.builder()
-                    .trainerId(trainer.getTrainerId())
+                    .trainerId(trainer.getId())
                     .name(trainer.getName())
                     .build();
         }
@@ -65,7 +65,7 @@ public class TrainerService {
         Trainer trainer = null;
         if (trainerDTO != null) {
             trainer = Trainer.builder()
-                    .trainerId(trainerDTO.getTrainerId())
+                    .id(trainerDTO.getTrainerId())
                     .name(trainerDTO.getName())
                     .build();
         }

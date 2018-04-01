@@ -1,5 +1,6 @@
 package ua.pp.jjd.lmsnew.service;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,6 +41,7 @@ public class TrainerServiceTest extends BaseDomainTest {
         assertThat(sizeAfter).isGreaterThan(sizeBefore);
     }
 
+    @Ignore
     @Test
     public void delete() {
         int sizeBefore = trainerService.getAll().size();

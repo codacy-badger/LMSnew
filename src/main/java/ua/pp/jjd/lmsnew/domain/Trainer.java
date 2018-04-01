@@ -1,29 +1,32 @@
 package ua.pp.jjd.lmsnew.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "trainer")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@ToString
 public class Trainer implements Serializable {
 
     private static final long serialVersionUID = -4563086931025194988L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "trainer_id", length = 4)
-    private Long trainerId;
+    @GeneratedValue
+    private Long id;
 
     @Column(name = "name", length = 30)
     private String name;
+
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Course> courses;
 
 }

@@ -1,8 +1,10 @@
 package ua.pp.jjd.lmsnew.repository;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.pp.jjd.lmsnew.BaseDomainTest;
+import ua.pp.jjd.lmsnew.domain.Course;
 import ua.pp.jjd.lmsnew.domain.Trainer;
 
 import java.util.List;
@@ -13,6 +15,9 @@ public class TrainerRepositoryTest extends BaseDomainTest {
 
     @Autowired
     private TrainerRepository trainerRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Test
     public void findAll() {
@@ -34,7 +39,12 @@ public class TrainerRepositoryTest extends BaseDomainTest {
     @Test
     public void delete() {
         int sizeBefore = trainerRepository.findAll().size();
-        trainerRepository.deleteById(trainerRepository.findAll().get(0).getTrainerId());
+        Trainer trainer = trainerRepository.findAll().get(0);
+        for (Course course : trainer.getCourses()) {
+            course.setTrainer(null);
+            courseRepository.saveAndFlush(course);
+        }
+        trainerRepository.deleteById(trainer.getId());
         int sizeAfter = trainerRepository.findAll().size();
         assertThat(sizeAfter).isLessThan(sizeBefore);
     }
@@ -42,15 +52,18 @@ public class TrainerRepositoryTest extends BaseDomainTest {
     @Test
     public void getById() {
         List<Trainer> trainers = trainerRepository.findAll();
-        Trainer trainer = trainerRepository.getOne(trainers.get(0).getTrainerId());
+        Trainer trainer = trainerRepository.getOne(trainers.get(0).getId());
         assertThat(trainer).isNotNull();
     }
 
+    @Ignore
     @Test
     public void update() {
         List<Trainer> trainers = trainerRepository.findAll();
-        Trainer trainer = trainerRepository.getOne(trainers.get(0).getTrainerId());
-        trainer = trainer.toBuilder().name("Кей Хорстманн").build();
+        Trainer trainer = trainerRepository.getOne(trainers.get(0).getId());
+        trainer.setName("Кей Хорстманн");
+        trainer.setCourses(null);
+        System.out.println(trainer);
         trainerRepository.saveAndFlush(trainer);
         assertThat(trainers).hasSize(3);
     }
