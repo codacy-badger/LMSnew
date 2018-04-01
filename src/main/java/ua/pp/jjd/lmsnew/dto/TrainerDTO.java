@@ -3,9 +3,9 @@ package ua.pp.jjd.lmsnew.dto;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -15,5 +15,6 @@ public class TrainerDTO implements Serializable {
 
     private Long trainerId;
     private String name;
+    private List<String> courses;
 
 }

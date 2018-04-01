@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.pp.jjd.lmsnew.domain.Course;
 import ua.pp.jjd.lmsnew.domain.Trainer;
 import ua.pp.jjd.lmsnew.dto.TrainerDTO;
+import ua.pp.jjd.lmsnew.repository.CourseRepository;
 import ua.pp.jjd.lmsnew.repository.TrainerRepository;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class TrainerService {
 
     private final TrainerRepository trainerRepository;
+    private final CourseRepository courseRepository;
 
     @Transactional
     public List<TrainerDTO> getAll() {
@@ -46,16 +49,18 @@ public class TrainerService {
         trainerRepository.deleteById(id);
     }
 
-
-
-
-
     private TrainerDTO fromTrainer(Trainer trainer) {
         TrainerDTO trainerDTO = null;
         if (trainer != null) {
             trainerDTO = TrainerDTO.builder()
                     .trainerId(trainer.getId())
                     .name(trainer.getName())
+                    .courses(trainer.getCourses() == null
+                            ? null
+                            : trainer.getCourses().stream()
+                                    .map(Course::getName)
+                                    .collect(Collectors.toList())
+                            )
                     .build();
         }
         return trainerDTO;
@@ -67,6 +72,10 @@ public class TrainerService {
             trainer = Trainer.builder()
                     .id(trainerDTO.getTrainerId())
                     .name(trainerDTO.getName())
+                    .courses(trainerDTO.getCourses() == null
+                            ? null
+                            : courseRepository.findAllByName(trainerDTO.getCourses())
+                    )
                     .build();
         }
         return trainer;
