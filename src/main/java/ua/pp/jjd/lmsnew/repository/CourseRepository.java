@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-//    Course getCourseByName(String name);
-
     List<Course> findAllByName(List<String> names);
 
 }

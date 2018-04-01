@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.pp.jjd.lmsnew.domain.Course;
-import ua.pp.jjd.lmsnew.domain.Trainer;
+import ua.pp.jjd.lmsnew.domain.Student;
 import ua.pp.jjd.lmsnew.dto.CourseDTO;
 import ua.pp.jjd.lmsnew.repository.CourseRepository;
+import ua.pp.jjd.lmsnew.repository.StudentRepository;
 import ua.pp.jjd.lmsnew.repository.TrainerRepository;
 
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final TrainerRepository trainerRepository;
+    private final StudentRepository studentRepository;
 
     @Transactional
     public List<CourseDTO> getAll() {
@@ -59,8 +61,13 @@ public class CourseService {
                     .startDate(course.getStartDate().toString())
                     .endDate(course.getEndDate().toString())
                     .trainer(course.getTrainer() != null
-                            ? course.getTrainer().getName()
-                            : null)
+                                ? course.getTrainer().getName()
+                                : null)
+                    .students(course.getStudents() != null
+                                ? course.getStudents().stream()
+                                    .map(Student::getName)
+                                    .collect(Collectors.toList())
+                                : null)
                     .build();
         }
         return courseDTO;
@@ -75,10 +82,16 @@ public class CourseService {
                     .startDate(LocalDate.parse(courseDTO.getStartDate()))
                     .endDate(LocalDate.parse(courseDTO.getEndDate()))
                     .trainer(courseDTO.getTrainer() != null
-                            ? trainerRepository.findTrainerByName(courseDTO.getTrainer())
-                            : null)
+                                ? trainerRepository.findTrainerByName(courseDTO.getTrainer())
+                                : null)
+                    .students(courseDTO.getStudents() != null
+                                ? studentRepository.findStudentsByName(courseDTO.getStudents())
+                                : null)
                     .build();
         }
+        System.out.println(courseDTO);
+        System.out.println(courseDTO.getStudents());
+        System.out.println(course);
         return course;
     }
 

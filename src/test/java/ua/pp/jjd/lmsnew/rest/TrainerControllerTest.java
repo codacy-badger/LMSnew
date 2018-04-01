@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.pp.jjd.lmsnew.dto.TrainerDTO;
 import ua.pp.jjd.lmsnew.service.CourseService;
+import ua.pp.jjd.lmsnew.service.StudentService;
 import ua.pp.jjd.lmsnew.service.TrainerService;
 
 import java.util.Arrays;
@@ -44,16 +45,19 @@ public class TrainerControllerTest {
     @MockBean
     private CourseService courseService;
 
+    @MockBean
+    private StudentService studentService;
+
     private TrainerDTO trainer1 = TrainerDTO.builder()
-            .trainerId(1L)
+            .id(1L)
             .name("Брюс Эккель")
             .build();
     private TrainerDTO trainer2 = TrainerDTO.builder()
-            .trainerId(2L)
+            .id(2L)
             .name("Яков Файн")
             .build();
     private TrainerDTO trainer3 = TrainerDTO.builder()
-            .trainerId(3L)
+            .id(3L)
             .name("Джошуа Блох")
             .build();
 
@@ -61,7 +65,7 @@ public class TrainerControllerTest {
     public void setUp() {
         when(trainerService.getAll())
                 .thenReturn(Arrays.asList(trainer1, trainer2, trainer3));
-        when(trainerService.getById(trainer1.getTrainerId())).thenReturn(trainer1);
+        when(trainerService.getById(trainer1.getId())).thenReturn(trainer1);
         when(trainerService.add(trainer1)).thenReturn(trainer1);
         when(trainerService.update(trainer1)).thenReturn(trainer1);
     }
@@ -79,7 +83,7 @@ public class TrainerControllerTest {
 
     @Test
     public void getById() throws Exception {
-        mvc.perform(get(URL + "/" + trainer1.getTrainerId()))
+        mvc.perform(get(URL + "/" + trainer1.getId()))
                 .andExpect(status().isOk());
     }
 
@@ -96,7 +100,7 @@ public class TrainerControllerTest {
 
     @Test
     public void delete() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.delete(URL + "/" + trainer1.getTrainerId()))
+        mvc.perform(MockMvcRequestBuilders.delete(URL + "/" + trainer1.getId()))
                 .andExpect(status().isOk());
 
     }

@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -35,5 +36,12 @@ public class Course implements Serializable {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
+    @JoinTable(name = "course_student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> students;
 
 }

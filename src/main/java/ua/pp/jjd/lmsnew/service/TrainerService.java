@@ -53,14 +53,13 @@ public class TrainerService {
         TrainerDTO trainerDTO = null;
         if (trainer != null) {
             trainerDTO = TrainerDTO.builder()
-                    .trainerId(trainer.getId())
+                    .id(trainer.getId())
                     .name(trainer.getName())
-                    .courses(trainer.getCourses() == null
-                            ? null
-                            : trainer.getCourses().stream()
+                    .courses(trainer.getCourses() != null
+                                ? trainer.getCourses().stream()
                                     .map(Course::getName)
                                     .collect(Collectors.toList())
-                            )
+                                : null)
                     .build();
         }
         return trainerDTO;
@@ -70,12 +69,11 @@ public class TrainerService {
         Trainer trainer = null;
         if (trainerDTO != null) {
             trainer = Trainer.builder()
-                    .id(trainerDTO.getTrainerId())
+                    .id(trainerDTO.getId())
                     .name(trainerDTO.getName())
-                    .courses(trainerDTO.getCourses() == null
-                            ? null
-                            : courseRepository.findAllByName(trainerDTO.getCourses())
-                    )
+                    .courses(trainerDTO.getCourses() != null
+                                ? courseRepository.findAllByName(trainerDTO.getCourses())
+                                : null)
                     .build();
         }
         return trainer;

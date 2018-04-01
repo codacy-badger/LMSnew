@@ -1,6 +1,9 @@
 package ua.pp.jjd.lmsnew.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,9 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class TrainerDTO implements Serializable {
+public class StudentDTO implements Serializable {
 
-    private static final long serialVersionUID = 3718994379639747055L;
+    private static final long serialVersionUID = -2283501002179782172L;
 
     private Long id;
     private String name;

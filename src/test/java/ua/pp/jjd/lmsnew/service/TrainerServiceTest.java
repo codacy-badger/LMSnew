@@ -26,7 +26,7 @@ public class TrainerServiceTest extends BaseDomainTest {
     @Test
     public void getById() {
         List<TrainerDTO> all = trainerService.getAll();
-        TrainerDTO trainerDTO = trainerService.getById(all.get(0).getTrainerId());
+        TrainerDTO trainerDTO = trainerService.getById(all.get(0).getId());
         assertThat(trainerDTO).isNotNull();
     }
 
@@ -45,7 +45,7 @@ public class TrainerServiceTest extends BaseDomainTest {
     @Test
     public void delete() {
         int sizeBefore = trainerService.getAll().size();
-        trainerService.delete(trainerService.getAll().get(0).getTrainerId());
+        trainerService.delete(trainerService.getAll().get(0).getId());
         int sizeAfter = trainerService.getAll().size();
         assertThat(sizeAfter).isLessThan(sizeBefore);
     }
